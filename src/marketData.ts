@@ -1,5 +1,6 @@
 import * as agent from 'superagent';
 import { identity, retry } from './utils';
+import * as logger from 'winston';
 
 type PriceData = number[];
 
@@ -52,7 +53,7 @@ export async function getRate(
     throw new Error('unable to fetch any price data from exchanges!');
   }
 
-  console.log(prices);
+  logger.debug('Raw data:', JSON.stringify(prices));
   const dotProduct = prevProd + getDotProduct(prices);
   const weight = prevWeight + getWeight(prices);
   let priceChange = 0;

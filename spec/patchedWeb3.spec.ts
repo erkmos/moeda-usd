@@ -1,3 +1,4 @@
+import * as logger from 'winston';
 import {
   web3, promisify, gasPriceHistoryAsync,
   sendTransactionAsync, getGasPrice, waitUntilMined, getHttpProvider,
@@ -119,7 +120,6 @@ describe('Patched Web3', () => {
         watch: callback => callback(),
         stopWatching: stopWatchingSpy,
       });
-      spyOn(console, 'log');
 
       const receipt = {
         transactionHash: '0xb903239f8543d04b5dc1ba6579132b143087c68db1b2168786408fcbce568238',
@@ -147,7 +147,6 @@ describe('Patched Web3', () => {
 
       const result = await waitUntilMined('bar');
       expect(result).toEqual(receipt);
-      expect(console.log).toHaveBeenCalledWith('Update sent successfully');
       expect(stopWatchingSpy).toHaveBeenCalled();
     });
   });

@@ -15,7 +15,7 @@
   "scripts": {
     "lint": "tslint '*.ts'",
     "test": "ts-node node_modules/jasmine/bin/jasmine",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node index.ts"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.53",

@@ -77,7 +77,7 @@ export async function getGasPrice() {
   })[Math.floor((history.length - 1) * PERCENTILE)];
 }
 
-export function waitUntilMined(txid): Promise<TransactionReceipt | Error> {
+export function waitUntilMined(txid): Promise<TransactionReceipt> {
   const filter = web3.eth.filter('latest');
   return new Promise((resolve, reject) => {
     filter.watch((error) => { // triggered for every new block
@@ -86,6 +86,8 @@ export function waitUntilMined(txid): Promise<TransactionReceipt | Error> {
         return reject(error);
       }
 
+      // This callback might be called multiple times depending on how long it
+      // takes for the transaction to get mined
       web3.eth.getTransactionReceipt(txid, (innerError, receipt) => {
         if (innerError) {
           filter.stopWatching();
@@ -98,7 +100,6 @@ export function waitUntilMined(txid): Promise<TransactionReceipt | Error> {
 
         filter.stopWatching();
         if (receipt.logs.length > 0) {
-          console.log('Update sent successfully');
           return resolve(receipt);
         }
 

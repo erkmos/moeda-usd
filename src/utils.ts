@@ -1,4 +1,5 @@
 import * as Web3 from 'web3';
+import * as logger from 'winston';
 
 const web3 = new Web3();
 
@@ -19,8 +20,8 @@ export async function retry(fn: Function, ...args: any[]): Promise<any> {
     try {
       return await fn(...args);
     } catch (error) {
-      console.warn(error.message);
-      console.log('retrying...');
+      logger.warn(error.message);
+      logger.info('retrying...');
       retries += 1;
     }
   }
@@ -37,5 +38,5 @@ export function toCents(price: number): number {
 }
 
 export function centsToUSD(price: number): string {
-  return `$${price / 100}`;
+  return `$${(price / 100).toFixed(2)}`;
 }

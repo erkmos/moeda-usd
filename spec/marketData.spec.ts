@@ -1,5 +1,6 @@
 import * as agent from 'superagent';
 import * as MarketData from '../src/marketData';
+import * as logger from 'winston';
 const mockData = require('./data/marketData.json');
 
 describe('MarketData', () => {
@@ -50,8 +51,8 @@ describe('MarketData', () => {
 
   describe('filterErrors', () => {
     beforeEach(() => {
-      spyOn(console, 'log');
-      spyOn(console, 'warn');
+      spyOn(logger, 'info');
+      spyOn(logger, 'warn');
     });
 
     it('should return values from functions that were successful', async () => {
@@ -90,8 +91,8 @@ describe('MarketData', () => {
 
   describe('getRate', () => {
     it('should throw error if no prices can be retrieved', async () => {
-      spyOn(console, 'log');
-      spyOn(console, 'warn');
+      spyOn(logger, 'info');
+      spyOn(logger, 'warn');
       spyOn(agent, 'get').and.returnValue(Promise.reject(new Error('foo')));
 
       try {
@@ -104,7 +105,7 @@ describe('MarketData', () => {
     });
 
     it('should calculate price', async () => {
-      spyOn(console, 'log');
+      spyOn(logger, 'debug');
       spyOn(agent, 'get').and.returnValues(
         Promise.resolve({ body: mockData.gemini }),
         Promise.resolve({ body: mockData.gdax }),
@@ -116,12 +117,12 @@ describe('MarketData', () => {
       expect(dotProduct).toBe(213575573.38828832);
       expect(weight).toBe(1068728.81170819);
       expect(price).toBe(199.84075571699273);
-      expect(console.log).toHaveBeenCalledWith([
+      expect(logger.debug).toHaveBeenCalledWith('Raw data:', JSON.stringify([
         [239180.16170535, 200.54],
         [357403.99540574, 200.26],
         [305417.86949845, 198.17],
-        [166726.78509865, 200.9995]
-      ]);
+        [166726.78509865, 200.9995],
+      ]));
     });
   });
 });

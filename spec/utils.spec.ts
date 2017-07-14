@@ -1,13 +1,18 @@
+import * as logger from 'winston';
 import * as utils from '../src/utils';
 
 describe('utils', () => {
   describe('delay', () => {
-    it('should resolve after given time', async () => {
+    it('should resolve after given time', (done) => {
       const before = new Date().getTime();
-      const waitTime = 3;
-      await utils.delay(3);
-      const after = new Date().getTime();
-      expect(after - before).toBeGreaterThanOrEqual(waitTime);
+      const waitTime = 30;
+      jasmine.clock().install();
+
+      utils.delay(waitTime).then(() => {
+        done();
+        jasmine.clock().uninstall();
+      });
+      jasmine.clock().tick(waitTime + 1);
     });
   });
 
@@ -20,13 +25,13 @@ describe('utils', () => {
 
   describe('retry', () => {
     it('should retry up to 3 times on failure', async () => {
-      spyOn(console, 'log');
-      spyOn(console, 'warn');
+      spyOn(logger, 'info');
+      spyOn(logger, 'warn');
       const willFail = () => Promise.reject(new Error('foo'));
 
       const ret = await utils.retry(willFail);
 
-      expect(console.log).toHaveBeenCalledTimes(3);
+      expect(logger.info).toHaveBeenCalledTimes(3);
       expect(ret).toBe(null);
     });
 
