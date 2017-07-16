@@ -96,7 +96,7 @@ describe('main', () => {
 
       expect(receipt).toEqual(fakeReceipt);
       expect(logger.info['calls'].argsFor(0)[0]).toEqual(
-        'Sending price update: 12345 cost: 0.00000000000615 ETH');
+        'Sending price update: 12345 cost: 0.000000000004305 ETH');
       expect(logger.info['calls'].argsFor(1)[0]).toEqual(
         'Update to $123.45 in tx: 0x123 was successful.');
     });
@@ -169,7 +169,7 @@ describe('main', () => {
       spyOn(logger, 'info');
       logLine(new Date().getTime(), 10, 12345);
       expect(logger.info).toHaveBeenCalledWith(
-        'Calculated price:', '$123.45', 'first update in', 315, 'sec');
+        'Calculated price:', '$123.45', 'first update in', 540, 'sec');
     });
   });
 
