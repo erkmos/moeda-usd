@@ -60,7 +60,7 @@ export async function getRate(
   let oldPrice = 0;
 
   if (prevWeight > 0 && prevProd > 0) {
-    priceChange = priceChange = alpha * (dotProduct / weight);
+    priceChange = alpha * (dotProduct / weight);
     oldPrice = (1 - alpha) * (prevProd / prevWeight);
   } else {
     priceChange = dotProduct / weight;
