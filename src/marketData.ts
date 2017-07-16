@@ -45,26 +45,13 @@ export function getWeight(prices: PriceData[]): number {
   return prices.reduce((acc, val) => acc + val[0], 0);
 }
 
-export async function getRate(
-  prevProd: number, prevWeight: number, alpha: number,
-): Promise<number[]> {
+export async function getRate(): Promise<number> {
   const prices = await getPriceData();
   if (prices.length === 0) {
     throw new Error('unable to fetch any price data from exchanges!');
   }
 
   logger.debug('Raw data:', JSON.stringify(prices));
-  const dotProduct = prevProd + getDotProduct(prices);
-  const weight = prevWeight + getWeight(prices);
-  let priceChange = 0;
-  let oldPrice = 0;
 
-  if (prevWeight > 0 && prevProd > 0) {
-    priceChange = alpha * (dotProduct / weight);
-    oldPrice = (1 - alpha) * (prevProd / prevWeight);
-  } else {
-    priceChange = dotProduct / weight;
-  }
-
-  return [dotProduct, weight, priceChange + oldPrice];
+  return getDotProduct(prices) / getWeight(prices);
 }

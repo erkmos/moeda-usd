@@ -34,7 +34,9 @@ export async function sendPriceUpdate(
   const transaction = await buildTransaction(config, price);
   const cost = transaction.gas * transaction.gasPrice;
 
-  logger.info(`Sending price update: ${price} cost: ${eth.web3.fromWei(cost)} ETH`);
+  logger.info(
+    `Sending price update: ${utils.centsToUSD(price)}`,
+    `cost: ${eth.web3.fromWei(cost)} ETH...`);
 
   try {
     const txid = await eth.sendTransactionAsync(
@@ -47,33 +49,6 @@ export async function sendPriceUpdate(
   } catch (error) {
     logger.error(getErrorMessage(error));
     return undefined;
-  }
-}
-
-export function timeElapsedSince(lastUpdate: number): number {
-  return (new Date()).getTime() - lastUpdate;
-}
-
-export function timeToUpdate(lastUpdate: number): boolean {
-  return timeElapsedSince(lastUpdate) > TIME_BETWEEN_UPDATES;
-}
-
-export function hasConverged(valueCount: number): boolean {
-  return valueCount > CONVERGENCE_THRESHOLD;
-}
-
-export function logLine(lastUpdate: number, numValues: number, price: number): void {
-  if (hasConverged(numValues)) {
-    const timeLeft = Math.max(
-      TIME_BETWEEN_UPDATES - timeElapsedSince(lastUpdate), 0);
-    logger.info(
-      'Calculated price:', utils.centsToUSD(price),
-      'next update in', timeLeft / 1000, 'sec');
-  } else {
-    const timeLeft = (POLLING_DELAY / 1000) * (CONVERGENCE_THRESHOLD - numValues);
-    logger.info(
-      'Calculated price:', utils.centsToUSD(price),
-      'first update in', timeLeft, 'sec');
   }
 }
 
@@ -108,32 +83,19 @@ function init() {
 }
 
 export async function main(runOnce = false): Promise<any> {
-  let prod = 0;
-  let weight = 0;
-  let numValues = 0;
-  let price = 0;
-  let lastUpdate = 0;
   init();
 
   const config = getConfig();
 
   while (true) {
-    [prod, weight, price] = await marketData.getRate(
-      prod, weight, SMOOTHING_FACTOR);
-    price = utils.toCents(price);
-    numValues += 1;
-
-    logLine(lastUpdate, numValues, price);
-
-    if (timeToUpdate(lastUpdate) && hasConverged(numValues)) {
-      utils.retry(sendPriceUpdate, config, price);
-      lastUpdate = new Date().getTime();
-    }
+    const price = utils.toCents(await marketData.getRate());
+    await utils.retry(sendPriceUpdate, config, price);
+    logger.info(`Next update in ${TIME_BETWEEN_UPDATES / 1000} sec`);
 
     if (runOnce) {
       break;
     }
 
-    await utils.delay(POLLING_DELAY);
+    await utils.delay(TIME_BETWEEN_UPDATES);
   }
 }
