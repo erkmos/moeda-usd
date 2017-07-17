@@ -94,7 +94,7 @@ describe('main', () => {
       expect(receipt).toEqual(fakeReceipt);
       expect(logger.info['calls'].argsFor(0)).toEqual([
         'Sending price update: $123.45',
-        'cost: 0.00000000000615 ETH...']);
+        'cost: 0.000000000004305 ETH...']);
       expect(logger.info['calls'].argsFor(1)[0]).toEqual(
         'Update to $123.45 in tx: 0x123 was successful.');
     });
@@ -130,7 +130,7 @@ describe('main', () => {
     });
   });
 
-  fdescribe('main', () => {
+  describe('main', () => {
     it('should call init and get config', async () => {
       spyOn(logger, 'add');
       spyOn(eth.web3, 'setProvider');
@@ -155,6 +155,10 @@ describe('main', () => {
       spyOn(logger, 'add');
       spyOn(logger, 'info');
       spyOn(eth.web3, 'setProvider');
+      spyOn(eth, 'getGasPrice').and.returnValue(Promise.resolve());
+      spyOn(eth, 'sendTransactionAsync').and.returnValue(Promise.resolve());
+      spyOn(eth, 'waitUntilMined').and.returnValue(Promise.resolve({
+        transactionHash: '123' }));
       spyOn(marketData, 'getRate').and.returnValue(Promise.resolve(123));
 
       await main(true);

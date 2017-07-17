@@ -3,8 +3,7 @@ import * as marketData from './marketData';
 import * as eth from './patchedWeb3';
 import * as logger from 'winston';
 import {
-  GAS_COST, TIME_BETWEEN_UPDATES,
-  SMOOTHING_FACTOR, POLLING_DELAY, CONVERGENCE_THRESHOLD,
+  GAS_COST, TIME_BETWEEN_UPDATES, POLLING_DELAY,
 } from './constants';
 
 const METHOD_ID = eth.web3.sha3('updateRate(uint256)').slice(0, 10);

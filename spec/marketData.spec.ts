@@ -96,7 +96,7 @@ describe('MarketData', () => {
       spyOn(agent, 'get').and.returnValue(Promise.reject(new Error('foo')));
 
       try {
-        await MarketData.getRate(0, 1, 2);
+        await MarketData.getRate();
         fail('should have thrown');
       } catch (error) {
         expect(error.message).toEqual(
@@ -112,10 +112,8 @@ describe('MarketData', () => {
         Promise.resolve({ body: mockData.bitfinex }),
         Promise.resolve({ body: mockData.kraken }));
 
-      const [dotProduct, weight, price] = await MarketData.getRate(0, 0, 0.5);
+      const price = await MarketData.getRate();
 
-      expect(dotProduct).toBe(213575573.38828832);
-      expect(weight).toBe(1068728.81170819);
       expect(price).toBe(199.84075571699273);
       expect(logger.debug).toHaveBeenCalledWith('Raw data:', JSON.stringify([
         [239180.16170535, 200.54],
