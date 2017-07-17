@@ -1,4 +1,4 @@
-This script was used to update the ETH/USD exchange rate during the Moeda fundraiser. It uses an iterative exponential moving average of the volume weighted prices across Bitfinex, Gemini, GDAX and Kraken.
+This script was used to update the ETH/USD exchange rate during the Moeda fundraiser. It uses a volume weighted average of prices across Bitfinex, Gemini, GDAX and Kraken.
 
 With the current settings it will update the contract ETH/USD rate about every 2 hours.
 
