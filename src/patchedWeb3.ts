@@ -4,7 +4,7 @@ import * as Web3 from 'web3';
 const PERCENTILE = 0.7;
 export const web3 = new Web3();
 
-interface FilterLog {
+export interface FilterLog {
   logIndex: number;
   blockNumber: number;
   blockHash: string;

@@ -1,0 +1,10 @@
+export declare type PriceData = number[];
+export declare function gemini(): Promise<PriceData>;
+export declare function gdax(): Promise<PriceData>;
+export declare function bitfinex(): Promise<PriceData>;
+export declare function kraken(): Promise<PriceData>;
+export declare function filterErrors(...functions: any[]): Promise<any[]>;
+export declare function getPriceData(): Promise<PriceData[]>;
+export declare function getDotProduct(prices: PriceData[]): number;
+export declare function getWeight(prices: PriceData[]): number;
+export declare function getRate(): Promise<number>;

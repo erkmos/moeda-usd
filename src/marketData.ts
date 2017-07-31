@@ -2,7 +2,7 @@ import * as agent from 'superagent';
 import { identity, retry } from './utils';
 import * as logger from 'winston';
 
-type PriceData = number[];
+export type PriceData = number[];
 
 export function gemini(): Promise<PriceData> {
   return agent.get('https://api.gemini.com/v1/pubticker/ethusd')
