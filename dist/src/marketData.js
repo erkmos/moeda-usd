@@ -53,6 +53,13 @@ function getWeight(prices) {
     return prices.reduce((acc, val) => acc + val[0], 0);
 }
 exports.getWeight = getWeight;
+function getRateInCents() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const rate = yield getRate();
+        return utils_1.toCents(rate);
+    });
+}
+exports.getRateInCents = getRateInCents;
 function getRate() {
     return __awaiter(this, void 0, void 0, function* () {
         const prices = yield getPriceData();

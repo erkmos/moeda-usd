@@ -7,4 +7,5 @@ export declare function filterErrors(...functions: any[]): Promise<any[]>;
 export declare function getPriceData(): Promise<PriceData[]>;
 export declare function getDotProduct(prices: PriceData[]): number;
 export declare function getWeight(prices: PriceData[]): number;
+export declare function getRateInCents(): Promise<number>;
 export declare function getRate(): Promise<number>;

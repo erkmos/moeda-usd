@@ -1,2 +1,2 @@
-export { getRate, getPriceData } from './marketData';
+export { getRate, getRateInCents, getPriceData } from './marketData';
 export { main } from './app';

@@ -1,5 +1,5 @@
 import * as agent from 'superagent';
-import { identity, retry } from './utils';
+import { identity, retry, toCents } from './utils';
 import * as logger from 'winston';
 
 export type PriceData = number[];
@@ -43,6 +43,11 @@ export function getDotProduct(prices: PriceData[]): number {
 
 export function getWeight(prices: PriceData[]): number {
   return prices.reduce((acc, val) => acc + val[0], 0);
+}
+
+export async function getRateInCents(): Promise<number> {
+  const rate = await getRate();
+  return toCents(rate);
 }
 
 export async function getRate(): Promise<number> {

@@ -89,6 +89,20 @@ describe('MarketData', () => {
     });
   });
 
+  describe('getRateInCents', () => {
+    it('should return rate in cents', async () => {
+      spyOn(logger, 'debug');
+      spyOn(agent, 'get').and.returnValues(
+        Promise.resolve({ body: mockData.gemini }),
+        Promise.resolve({ body: mockData.gdax }),
+        Promise.resolve({ body: mockData.bitfinex }),
+        Promise.resolve({ body: mockData.kraken }));
+
+      const price = await MarketData.getRateInCents();
+      expect(price).toBe(19984);
+    });
+  });
+
   describe('getRate', () => {
     it('should throw error if no prices can be retrieved', async () => {
       spyOn(logger, 'info');
