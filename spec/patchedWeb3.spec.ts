@@ -39,13 +39,13 @@ describe('Patched Web3', () => {
     it('should return 70th percentile gas price', async () => {
       const mockProvider = {
         send: () => null,
-        sendAsync: () => mockData,
+        sendAsync: (payload, callback) => callback(null, mockData),
       };
       web3.setProvider(mockProvider);
 
       const result = await getGasPrice();
 
-      expect(result).toBe(82860000005);
+      expect(result).toBe(97780000006);
     });
 
     afterEach(() => {

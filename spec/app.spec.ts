@@ -13,7 +13,7 @@ describe('main', () => {
     beforeEach(async () => {
       const mockProvider = {
         send: () => null,
-        sendAsync: () => gasPriceData,
+        sendAsync: (payload, callback) => callback(null, gasPriceData),
       };
       eth.web3.setProvider(mockProvider);
     });
@@ -25,7 +25,7 @@ describe('main', () => {
     it('should set gas and gas price', async () => {
       const transaction = await buildTransaction(mockConfig, 12345);
       expect(transaction.gas).toBe(GAS_COST);
-      expect(transaction.gasPrice).toEqual(82860000005);
+      expect(transaction.gasPrice).toEqual(97780000006);
     });
 
     it('should set sender, destination', async () => {
