@@ -8,9 +8,9 @@
   "author": "Erik Mossberg",
   "license": "MIT",
   "dependencies": {
-    "superagent": "3.5.2",
-    "web3": "0.19.1",
-    "winston": "2.3.1"
+    "superagent": "3.8.3",
+    "web3": "0.20.6",
+    "winston": "3.0.0"
   },
   "scripts": {
     "lint": "tslint '*.ts'",
@@ -19,17 +19,17 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/jasmine": "2.5.53",
-    "@types/superagent": "3.5.3",
-    "@types/winston": "2.3.4",
+    "@types/jasmine": "2.8.8",
+    "@types/superagent": "3.8.3",
+    "@types/winston": "2.3.9",
     "gulp": "^3.9.1",
-    "gulp-typescript": "^3.2.1",
-    "jasmine": "2.7.0",
+    "gulp-typescript": "4.0.1",
+    "jasmine": "3.2.0",
     "jasmine-promises": "0.4.1",
-    "tslint": "5.5.0",
-    "tslint-config-airbnb": "5.2.1",
-    "ts-node": "3.3.0",
-    "typescript": "2.4.2",
-    "web3-typescript-typings": "0.3.0"
+    "tslint": "5.11.0",
+    "tslint-config-airbnb": "5.9.2",
+    "ts-node": "7.0.1",
+    "typescript": "3.0.1",
+    "web3-typescript-typings": "0.10.2"
   }
 }

@@ -70,7 +70,7 @@ function getConfig() {
 exports.getConfig = getConfig;
 function init() {
     eth.web3.setProvider(eth.getHttpProvider('http://localhost:8545'));
-    logger.add(logger.transports.File, { filename: 'moeda-usd.log', level: 'debug' });
+    logger.add(new logger.transports.File({ filename: 'moeda-usd.log', level: 'debug' }));
 }
 function main(runOnce = false) {
     return __awaiter(this, void 0, void 0, function* () {

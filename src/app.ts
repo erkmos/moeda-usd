@@ -78,7 +78,7 @@ export function getConfig(): Config {
 function init() {
   eth.web3.setProvider(eth.getHttpProvider('http://localhost:8545'));
   logger.add(
-    logger.transports.File, { filename: 'moeda-usd.log', level: 'debug' });
+    new logger.transports.File({ filename: 'moeda-usd.log', level: 'debug' }));
 }
 
 export async function main(runOnce = false): Promise<any> {
